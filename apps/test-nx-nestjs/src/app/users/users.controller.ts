@@ -1,4 +1,3 @@
-import { UserCreation } from '../../dto/users/request/userCreation';
 import { User } from '../../entities/users.entity';
 import { UsersService } from './users.service';
 import { Controller, Get , Post, Put, Delete, Param, Body} from '@nestjs/common';
