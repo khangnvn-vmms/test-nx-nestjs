@@ -14,7 +14,13 @@ export class UsersService {
   }
 
   async getUserById(id: number) : Promise<User> {
-    return this.usersRepository.findOne({where: {id}});
+    const user = await this.usersRepository.findOne({where: {id}});
+    if(user){
+      return user;
+    }
+    else{
+      return null
+    }
   }
   async createUser(user: User ): Promise<User> {
     const newUser = this.usersRepository.create(user);

@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@test-nx-nestjs/my-nest-lib": ["libs/my-nest-lib/src/index.ts"],
+      "@test-nx-nestjs/my-nest-lib1": ["libs/my-nest-lib1/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
