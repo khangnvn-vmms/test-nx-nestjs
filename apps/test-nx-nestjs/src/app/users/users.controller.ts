@@ -1,8 +1,7 @@
-import { UserCreation } from '../../dto/users/request/userCreation';
 import { User } from '../../entities/users.entity';
 import { ResponseData } from '../../global/responseData';
 import { UsersService } from './users.service';
-import { Controller, Get , Post, Put, Delete, Param, Body} from '@nestjs/common';
+import { Controller, Get , Post, Put, Delete, Param, Body, Query} from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
@@ -28,18 +27,18 @@ export class UsersController {
   }
 
   @Post()
-  async createUser(@Body() user: User): Promise<ResponseData<User>> {
+  async createUser(@Body() userData: User): Promise<ResponseData<User>> {
     try {
-      return new ResponseData<User>(await this.usersService.createUser(user), 200, 'Tao nguoi dung thanh cong');
+      return new ResponseData<User>(await this.usersService.createUser(userData), 200, 'Tao nguoi dung thanh cong');
     } catch (error) {
       return new ResponseData<User>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
   }
 
   @Put(':id')
-  async updateUser(@Body() user: User, @Param('id') id: number): Promise<ResponseData<User>> {
+  async updateUser(@Body() userData: User, @Param('id') id: number): Promise<ResponseData<User>> {
     try {
-      return new ResponseData<User>(await this.usersService.updateUser(user, id), 200, 'Cap nhat nguoi dung thanh cong');
+      return new ResponseData<User>(await this.usersService.updateUser(userData, id), 200, 'Cap nhat nguoi dung thanh cong');
     } catch (error) {
       return new ResponseData<User>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
@@ -47,11 +46,11 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async deleteUser(@Param('id') id: number): Promise<ResponseData<void>> {
+  async deleteUser(@Param('id') id: number): Promise<ResponseData<void| {message: string}>> {
     try {
-      return new ResponseData<void>(await this.usersService.deleteUser(id), 200, 'Xoa nguoi dung thanh cong');
+      return new ResponseData<void| {message: string}>(await this.usersService.deleteUser(id), 200, 'Xoa nguoi dung thanh cong');
     } catch (error) {
-      return new ResponseData<void>(error.data, error.statusCode, `Loi: ${error.message}`);
+      return new ResponseData<void| {message: string}>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
   } 
 }

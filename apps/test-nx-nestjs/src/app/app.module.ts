@@ -1,3 +1,4 @@
+import { ProductsModule } from '@test-nx-nestjs/products';
 import { Module } from '@nestjs/common';
 
 import { AppController } from './app.controller';
@@ -18,9 +19,11 @@ import { UsersModule } from './users/users.module';
       password: '123456',
       database: 'test',
       entities: [User],
+      // entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
     UsersModule,
+    ProductsModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
