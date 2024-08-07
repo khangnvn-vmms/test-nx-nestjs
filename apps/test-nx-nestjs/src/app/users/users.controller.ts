@@ -1,3 +1,4 @@
+import { UserCreation } from '../../dto/users/request/userCreation';
 import { User } from '../../entities/users.entity';
 import { ResponseData } from '../../global/responseData';
 import { UsersService } from './users.service';
@@ -11,7 +12,7 @@ export class UsersController {
     try {
       return new ResponseData<User[]>(await this.usersService.getAllUsers(), 200, 'Lay danh sach thanh cong');
     } catch (error) {
-      return new ResponseData<User[]>(null, 500, `Loi: ${error}`);
+      return new ResponseData<User[]>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
   }
 
@@ -21,7 +22,8 @@ export class UsersController {
       return new ResponseData<User>(await this.usersService.getUserById(id), 200, 'Lay du lieu nguoi dung thanh cong');
     }
     catch(error){
-      return new ResponseData<User>(null, 500, `Loi: ${error}`);
+      console.log(error)
+      return new ResponseData<User>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
   }
 
@@ -30,7 +32,7 @@ export class UsersController {
     try {
       return new ResponseData<User>(await this.usersService.createUser(user), 200, 'Tao nguoi dung thanh cong');
     } catch (error) {
-      return new ResponseData<User>(null, 500, `Loi: ${error}`);
+      return new ResponseData<User>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
   }
 
@@ -39,7 +41,7 @@ export class UsersController {
     try {
       return new ResponseData<User>(await this.usersService.updateUser(user, id), 200, 'Cap nhat nguoi dung thanh cong');
     } catch (error) {
-      return new ResponseData<User>(null, 500, `Loi: ${error}`);
+      return new ResponseData<User>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
 
   }
@@ -49,7 +51,7 @@ export class UsersController {
     try {
       return new ResponseData<void>(await this.usersService.deleteUser(id), 200, 'Xoa nguoi dung thanh cong');
     } catch (error) {
-      return new ResponseData<void>(null, 500, `Loi: ${error}`);
+      return new ResponseData<void>(error.data, error.statusCode, `Loi: ${error.message}`);
     }
   } 
 }

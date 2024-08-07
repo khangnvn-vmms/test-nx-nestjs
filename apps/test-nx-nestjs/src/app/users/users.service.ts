@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../entities/users.entity';
 import { Repository } from 'typeorm';
+import { ResponseData } from '../../global/responseData';
 
 @Injectable()
 export class UsersService {
@@ -19,21 +20,38 @@ export class UsersService {
       return user;
     }
     else{
-      return null
+      throw new ResponseData(undefined, 501, 'Khong tim thay nguoi dung');
     }
   }
   async createUser(user: User ): Promise<User> {
-    const newUser = this.usersRepository.create(user);
-    return this.usersRepository.save(newUser);
+    if(user){
+      const newUser = this.usersRepository.create(user);
+      return this.usersRepository.save(newUser);
+    }
+    else{
+      throw new ResponseData(undefined, 501, 'Khong co du lieu can tao');
+    }
   }
 
   async updateUser(user: User, id: number ): Promise<User> {
-    await this.usersRepository.update(id, user);
-    return this.usersRepository.findOne({ where: { id } });
+    const userCheck = await this.usersRepository.findOne({where: {id}});
+    if(userCheck){      
+      await this.usersRepository.update(id, user);
+      return this.usersRepository.findOne({ where: { id } });
+    }
+    else{
+      throw new ResponseData(undefined, 501, 'Khong co nguoi dung can sua du lieu');
+    }
   }
 
   async deleteUser(id) : Promise<any> {
-    this.usersRepository.delete(id);
-    return {message: "xoa thanh cong"}
+    const userCheck = await this.usersRepository.findOne({where: {id}});
+    if(userCheck){ 
+      this.usersRepository.delete(id);
+      return {message: "xoa thanh cong"}
+    }
+    else{
+      throw new ResponseData(undefined, 501, 'Khong tim thay nguoi dung can xoa');
+    }
   }
 }
